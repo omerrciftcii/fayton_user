@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "480796722790",
+    "project_id": "fayton-23e44",
+    "storage_bucket": "fayton-23e44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480796722790:android:ee626d9345293fbc99cfa7",
+        "android_client_info": {
+          "package_name": "com.example.driver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOsR1Yx54QIfHRgyQdRF8kW-MazB-Kvu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480796722790:android:564d28cd0abd6e9d99cfa7",
+        "android_client_info": {
+          "package_name": "com.fayton.user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOsR1Yx54QIfHRgyQdRF8kW-MazB-Kvu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480796722790:android:be442f717c2970b499cfa7",
+        "android_client_info": {
+          "package_name": "com.tr.bi.faytondriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOsR1Yx54QIfHRgyQdRF8kW-MazB-Kvu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
