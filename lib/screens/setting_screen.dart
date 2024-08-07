@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:userapp/models/request_model.dart';
 import 'package:userapp/providers/request_provider.dart';
-import 'package:userapp/screens/driver_profile_screen.dart';
-import 'package:userapp/widgets/profile_menu.dart';
+import 'package:userapp/screens/edit_profile_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -24,22 +22,117 @@ class _NotifyScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var requestProvider = Provider.of<RequestProvider>(context);
     return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Parametrlər",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 80.0, horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          padding: const EdgeInsets.all(18),
+          child: Column(
             children: [
-              Text('Bildiriş', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-              Switch(
-                value: isToggled,
-                onChanged: (value) {
-                  setState(() {
-                    isToggled = value;
-                  });
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.notifications_outlined,
+                        size: 28,
+                      ),
+                      SizedBox(width: 12),
+                      Text(
+                        'Bildirişlər',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Switch(
+                    value: isToggled,
+                    onChanged: (value) {
+                      setState(() {
+                        isToggled = value;
+                      });
+                    },
+                  ),
+                ],
               ),
+              SizedBox(height: 22),
+              SimpleDialogOption(
+                  padding: EdgeInsets.zero,
+                  child: Container(
+                      child: const Row(
+                    children: [
+                      Icon(Icons.lock_outline_rounded),
+                      SizedBox(width: 12),
+                      Text(
+                        'Parolunuzu Yeniləyin',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  )),
+                  onPressed: () async {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return const EditProfileScreen(
+                        editType: 'password',
+                      );
+                    }));
+                  }),
+              SizedBox(height: 32),
+              SimpleDialogOption(
+                  padding: EdgeInsets.zero,
+                  child: Container(
+                      child: const Row(
+                    children: [
+                      Icon(Icons.phone_outlined),
+                      SizedBox(width: 12),
+                      Text(
+                        'Telefon nömrəsi',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  )),
+                  onPressed: () async {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return const EditProfileScreen(
+                        editType: 'info',
+                      );
+                    }));
+                  }),
+              SizedBox(height: 32),
+              SimpleDialogOption(
+                  padding: EdgeInsets.zero,
+                  child: Container(
+                      child: const Row(
+                    children: [
+                      Icon(Icons.clear, size: 28),
+                      SizedBox(width: 12),
+                      Text(
+                        'Hesabı Sil',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  )),
+                  onPressed: () async {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return const EditProfileScreen(
+                        editType: 'delete',
+                      );
+                    }));
+                  }),
             ],
           ),
         ));

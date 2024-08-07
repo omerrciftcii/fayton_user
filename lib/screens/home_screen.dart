@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/helpers/show_date_picker.dart';
-import 'package:flutter_material_pickers/helpers/show_radio_picker.dart';
 import 'package:flutter_material_pickers/helpers/show_selection_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:userapp/common/app_colors.dart';
 import 'package:userapp/common/custom_button.dart';
 import 'package:userapp/common/custom_text_field.dart';
 import 'package:userapp/models/state_model.dart';
-import 'package:userapp/providers/auth_provider.dart';
 import 'package:userapp/providers/route_provider.dart';
 import 'package:userapp/screens/filter_screen.dart';
 import 'package:userapp/utils.dart';
@@ -36,18 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (permission == LocationPermission.deniedForever) {
       openAppSettings();
     } else {
-      _handleCurrentLocation();
+      // Kullanıcı izin verdi
     }
-  }
-
-  void _handleCurrentLocation() async {
-    var position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    setState(() {
-      var locationMessage =
-          "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
-    });
   }
 
   @override
@@ -78,8 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 48.0, right: 48, bottom: 24),
               child: CustomTextField(
-                controller: TextEditingController(
-                    text: routeProvider.selectedFromRoute?.title ?? ""),
+                controller: TextEditingController(text: routeProvider.selectedFromRoute?.title ?? ""),
                 hintText: "Gediş şəhərini seçin",
                 readOnly: true,
                 style: GoogleFonts.poppins(color: Colors.white38),
@@ -90,16 +76,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   showMaterialSelectionPicker<StateModel?>(
                     context: context,
+                    cancelText: "Ləğv et",
+                    confirmText: "Təsdiqlə",
                     title: 'Gediş şəhərini seçin',
-                    items: StateModel.townModels
-                        .followedBy(StateModel.villageModels)
-                        .followedBy(StateModel.subwayStationModels)
-                        .toList(),
+                    items: StateModel.townModels.followedBy(StateModel.villageModels).followedBy(StateModel.subwayStationModels).toList(),
                     transformer: (item) => (item?.title),
                     iconizer: (item) => item?.icon,
                     selectedItem: routeProvider.selectedFromRoute,
-                    onChanged: (value) =>
-                        setState(() => routeProvider.selectedFromRoute = value),
+                    onChanged: (value) => setState(() => routeProvider.selectedFromRoute = value),
                   );
                 },
               ),
@@ -108,8 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.only(left: 48.0, right: 48, bottom: 24),
               child: CustomTextField(
                 style: GoogleFonts.poppins(color: Colors.white38),
-                controller: TextEditingController(
-                    text: routeProvider.selectedToRoute?.title ?? ""),
+                controller: TextEditingController(text: routeProvider.selectedToRoute?.title ?? ""),
                 hintText: "Gedəcəyiniz şəhəri seçin",
                 readOnly: true,
                 prefixIcon: FaIcon(
@@ -119,29 +102,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   showMaterialSelectionPicker<StateModel?>(
                     context: context,
-                    items: StateModel.townModels
-                        .followedBy(StateModel.villageModels)
-                        .followedBy(StateModel.subwayStationModels)
-                        .toList(),
+                    cancelText: "Ləğv et",
+                    confirmText: "Təsdiqlə",
+                    items: StateModel.townModels.followedBy(StateModel.villageModels).followedBy(StateModel.subwayStationModels).toList(),
                     transformer: (item) => (item?.title),
                     iconizer: (item) => item?.icon,
                     selectedItem: routeProvider.selectedToRoute,
-                    onChanged: (value) =>
-                        setState(() => routeProvider.selectedToRoute = value),
+                    onChanged: (value) => setState(() => routeProvider.selectedToRoute = value),
                   );
                 },
               ),
             ),
             !isAllVisit
                 ? Padding(
-                    padding: const EdgeInsets.only(
-                        left: 48.0, right: 48, bottom: 24),
+                    padding: const EdgeInsets.only(left: 48.0, right: 48, bottom: 24),
                     child: CustomTextField(
                       controller: TextEditingController(),
                       hintText: routeProvider.selectedStartDate == null
                           ? "Başlama tarixi"
-                          : Utils.getFormatedDate(
-                              routeProvider.selectedStartDate.toString()),
+                          : Utils.getFormatedDate(routeProvider.selectedStartDate.toString()),
                       readOnly: true,
                       prefixIcon: FaIcon(
                         FontAwesomeIcons.calendarCheck,
@@ -149,15 +128,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       onTap: () async {
                         await showMaterialDatePicker(
-                          
-                          title: "Vaxtı seçin",
+                            title: "Vaxtı seçin",
+                            cancelText: "Ləğv et",
+                            confirmText: "Təsdiqlə",
                             firstDate: DateTime.now(),
                             lastDate: DateTime.now().add(Duration(days: 365)),
                             context: context,
-                            selectedDate: routeProvider.selectedStartDate ??
-                                DateTime.now(),
-                            onChanged: (value) =>
-                                routeProvider.selectedStartDate = value,
+                            selectedDate: routeProvider.selectedStartDate ?? DateTime.now(),
+                            onChanged: (value) => routeProvider.selectedStartDate = value,
                             onConfirmed: () async {});
                       },
                     ),

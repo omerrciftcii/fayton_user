@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:userapp/models/driver_profile_model.dart';
 import 'package:userapp/models/request_model.dart';
-import 'package:userapp/services/auth_service.dart';
 import 'package:userapp/services/request_service.dart';
 
 class RequestProvider extends ChangeNotifier {
@@ -26,10 +25,6 @@ class RequestProvider extends ChangeNotifier {
 
   List<RequestModel> _requestList = [];
   List<RequestModel> get requestList => _requestList;
-  set requestList(value) {
-    _requestList = value;
-    notifyListeners();
-  }
 
   getRequestList(String userId) async {
     RequestService.getRequestList(userId).then((value) {
@@ -38,8 +33,7 @@ class RequestProvider extends ChangeNotifier {
   }
 
   Future<DriverProfileModel>? _getDriverProfileFuture;
-  Future<DriverProfileModel>? get getDriverProfileFuture =>
-      _getDriverProfileFuture;
+  Future<DriverProfileModel>? get getDriverProfileFuture => _getDriverProfileFuture;
   set getDriverProfileFuture(value) {
     _getDriverProfileFuture = value;
     notifyListeners();

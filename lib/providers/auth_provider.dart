@@ -1,18 +1,16 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart' as model;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:userapp/models/profile_model.dart';
-import 'package:userapp/screens/login_screen.dart';
 import 'package:userapp/services/auth_service.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:appwrite/models.dart' as model;
 
 class AuthProvider extends ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -26,10 +24,8 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
   TextEditingController get phoneController => _phoneController;
-  final TextEditingController _identityNumberController =
-      TextEditingController();
-  TextEditingController get identityNumberController =>
-      _identityNumberController;
+  final TextEditingController _identityNumberController = TextEditingController();
+  TextEditingController get identityNumberController => _identityNumberController;
   TextEditingController _plateController = TextEditingController();
   TextEditingController get plateController => _plateController;
   TextEditingController _manufaturerController = TextEditingController();
@@ -39,8 +35,7 @@ class AuthProvider extends ChangeNotifier {
   final TextEditingController _familyNameController = TextEditingController();
   final TextEditingController _loginEmailController = TextEditingController();
   TextEditingController get loginEmailController => _loginEmailController;
-  final TextEditingController _loginPasswordController =
-      TextEditingController();
+  final TextEditingController _loginPasswordController = TextEditingController();
   TextEditingController get loginPasswordController => _loginPasswordController;
   TextEditingController _supportMailController = TextEditingController();
   TextEditingController get supportMailController => _supportMailController;
@@ -123,8 +118,7 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  final TextEditingController _passwordAgainController =
-      TextEditingController();
+  final TextEditingController _passwordAgainController = TextEditingController();
   TextEditingController get passwordAgainController => _passwordAgainController;
   final TextEditingController _userNameController = TextEditingController();
   TextEditingController get userNameController => _userNameController;
@@ -149,8 +143,7 @@ class AuthProvider extends ChangeNotifier {
   Future<UserCredential> signupWithEmail() async {
     try {
       isLoading = true;
-      var response = await AuthService.createUserWithEmailAndPassword(
-          emailController.text, passwordAgainController.text);
+      var response = await AuthService.createUserWithEmailAndPassword(emailController.text, passwordAgainController.text);
       if (response.user != null) {
         var response = await addUserToDb();
         isLoading = false;
@@ -181,8 +174,7 @@ class AuthProvider extends ChangeNotifier {
 
       token = await account.createPhoneToken(
         userId: ID.unique(),
-        phone: selectedPhoneCode! +
-            phoneController.text.trim().replaceAll(" ", ""),
+        phone: selectedPhoneCode! + phoneController.text.trim().replaceAll(" ", ""),
       );
       isLoading = false;
     } on AppwriteException {
@@ -281,19 +273,10 @@ class AuthProvider extends ChangeNotifier {
   Future<String> uploadProfilePicture(File profile) async {
     try {
       isLoading = true;
-      var response = await storage
-          .ref('profile_pictures')
-          .child(currentUser!.userId)
-          .putFile(profile);
+      var response = await storage.ref('profile_pictures').child(currentUser!.userId).putFile(profile);
 
-      var downloadUrl = await storage
-          .ref('profile_pictures')
-          .child(currentUser!.userId)
-          .getDownloadURL();
-      await firestore
-          .collection('users')
-          .doc(currentUser!.userId)
-          .set({"profileUrl": downloadUrl}, SetOptions(merge: true));
+      var downloadUrl = await storage.ref('profile_pictures').child(currentUser!.userId).getDownloadURL();
+      await firestore.collection('users').doc(currentUser!.userId).set({"profileUrl": downloadUrl}, SetOptions(merge: true));
       isLoading = false;
       return downloadUrl;
     } catch (e) {
@@ -328,9 +311,8 @@ class AuthProvider extends ChangeNotifier {
   Future<UserCredential> signInWithEmail() async {
     try {
       isLoading = true;
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: loginEmailController.text,
-          password: loginPasswordController.text);
+      final credential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(email: loginEmailController.text, password: loginPasswordController.text);
       isLoading = false;
 
       return credential;
@@ -341,20 +323,17 @@ class AuthProvider extends ChangeNotifier {
       } else if (e.code == 'wrong-password') {
         throw Exception('Parol doğru deyil');
       } else if (e.code == 'user-disabled') {
-        throw Exception(
-            'İstifadəçi hesabı administrator tərəfindən deaktiv edilmişdir.');
+        throw Exception('İstifadəçi hesabı administrator tərəfindən deaktiv edilmişdir.');
       } else if (e.code == 'too-many-requests') {
         throw Exception('Bu hesaba giriş üçün çox sayda sorğu göndərilib.');
       } else if (e.code == 'operation-not-allowed') {
-        throw Exception(
-            'Server xətası, zəhmət olmasa daha sonra yenidən cəhd edin.');
+        throw Exception('Server xətası, zəhmət olmasa daha sonra yenidən cəhd edin.');
       } else {
         throw Exception('Giriş uğursuz oldu. Zəhmət olmasa yenidən cəhd edin.');
       }
     } catch (e) {
       isLoading = false;
-      throw Exception(
-          'Gözlənilməz bir xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+      throw Exception('Gözlənilməz bir xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
     }
   }
 
@@ -380,13 +359,9 @@ class AuthProvider extends ChangeNotifier {
       await client.collection('users').doc(auth.currentUser!.uid).set(
             profileModel.toJson(),
           );
-      FirebaseChatCore.instance
-          .setConfig(FirebaseChatCoreConfig(null, "rooms", "chatUsers"));
-      await FirebaseChatCore.instance.createUserInFirestore(types.User(
-          id: auth.currentUser!.uid,
-          firstName: nameController.text,
-          lastName: familyNameController.text,
-          imageUrl: ""));
+      FirebaseChatCore.instance.setConfig(FirebaseChatCoreConfig(null, "rooms", "chatUsers"));
+      await FirebaseChatCore.instance.createUserInFirestore(
+          types.User(id: auth.currentUser!.uid, firstName: nameController.text, lastName: familyNameController.text, imageUrl: ""));
     } catch (e) {
       isLoading = false;
 
@@ -396,15 +371,11 @@ class AuthProvider extends ChangeNotifier {
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
       if (fronDriverLicense != null) {
-        var ref = storage
-            .ref("driver_licenses")
-            .child('front-${auth.currentUser!.uid}');
+        var ref = storage.ref("driver_licenses").child('front-${auth.currentUser!.uid}');
         ref.putFile(fronDriverLicense!);
       }
       if (backDriverLicense != null) {
-        var ref = storage
-            .ref("driver_licenses")
-            .child('back-${auth.currentUser!.uid}');
+        var ref = storage.ref("driver_licenses").child('back-${auth.currentUser!.uid}');
         ref.putFile(fronDriverLicense!);
       }
       if (facePhoto != null) {

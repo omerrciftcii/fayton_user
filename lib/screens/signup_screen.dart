@@ -1,21 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:userapp/common/app_colors.dart';
-import 'package:userapp/common/app_fonts.dart';
 import 'package:userapp/common/custom_button.dart';
 import 'package:userapp/common/custom_text_field.dart';
 import 'package:userapp/common/waiting_indicator.dart';
 import 'package:userapp/providers/auth_provider.dart';
 import 'package:userapp/screens/custom_navigation_bar.dart';
-import 'package:userapp/screens/sms_confirmation_screen.dart';
 import 'package:userapp/services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -79,8 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Row(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 36, top: 72.0),
+                              padding: const EdgeInsets.only(left: 36, top: 72.0),
                               child: RichText(
                                 text: const TextSpan(
                                   style: TextStyle(
@@ -110,8 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       validator: (value) {
                         if (value == null) {
                           return "This field is required";
-                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
+                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                           return "E-poçt ünvanı doğru deyil";
                         }
                       },
@@ -143,74 +137,64 @@ class _SignupScreenState extends State<SignupScreen> {
                       controller: authPRovider.familyNameController,
                       hintText: "Soyadı",
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 60.0,
-                        right: 36,
-                        top: 24,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.transparent,
                       ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.transparent,
+                      child: InternationalPhoneNumberInput(
+                        textStyle: GoogleFonts.poppins(
+                          color: Colors.white,
                         ),
-                        height: 48,
-                        child: InternationalPhoneNumberInput(
-                          textStyle: GoogleFonts.poppins(
-                            color: Colors.white,
-                          ),
-                          onInputChanged: (PhoneNumber number) {
-                            setState(() {
-                              numberInitialCode = number.isoCode.toString();
-                            });
-                            print(number.phoneNumber.toString() +
-                                " onInputChanged");
-                            authPRovider.selectedPhoneCode = number.dialCode;
-                          },
+                        onInputChanged: (PhoneNumber number) {
+                          setState(() {
+                            numberInitialCode = number.isoCode.toString();
+                          });
+                          print(number.phoneNumber.toString() + " onInputChanged");
+                          authPRovider.selectedPhoneCode = number.dialCode;
+                        },
 
-                          onInputValidated: (bool value) {
-                            print(value);
-                          },
+                        onInputValidated: (bool value) {
+                          print(value);
+                        },
 
-                          textAlign: TextAlign.start,
-                          countries: ["AZ", "TR"],
-                          ignoreBlank: false,
-                          autoValidateMode: AutovalidateMode.disabled,
-                          selectorTextStyle: GoogleFonts.poppins(
-                            color: Colors.black,
-                          ),
-                          initialValue: PhoneNumber(
-                            isoCode: numberInitialCode,
-                          ),
-
-                          textFieldController: authPRovider.phoneController,
-                          keyboardType: TextInputType.numberWithOptions(
-                              signed: true, decimal: true),
-                          // inputBorder: OutlineInputBorder(
-                          //   borderRadius: BorderRadius.circular(30.0),
-                          //   borderSide: BorderSide(
-                          //     width: 0,
-                          //     color: Colors.transparent,
-                          //   ),
-                          // ),
-                          // inputDecoration: InputDecoration(
-                          //   hintText: "Telefon nömrəsi",
-                          //   hintStyle: GoogleFonts.roboto(
-                          //       color: Colors.black54, fontSize: 16),
-                          //   contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                          //   border: OutlineInputBorder(
-                          //     borderRadius: BorderRadius.circular(30.0),
-                          //     borderSide: BorderSide(
-                          //       width: 0,
-                          //       color: Colors.transparent,
-                          //     ),
-                          //   ),
-                          // ),
-                          validator: null,
-                          onSaved: (PhoneNumber number) {
-                            print('On Saved: $number');
-                          },
+                        textAlign: TextAlign.start,
+                        countries: ["AZ", "TR"],
+                        ignoreBlank: false,
+                        autoValidateMode: AutovalidateMode.disabled,
+                        selectorTextStyle: GoogleFonts.poppins(
+                          color: Colors.black,
                         ),
+                        initialValue: PhoneNumber(
+                          isoCode: numberInitialCode,
+                        ),
+
+                        textFieldController: authPRovider.phoneController,
+                        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                        // inputBorder: OutlineInputBorder(
+                        //   borderRadius: BorderRadius.circular(30.0),
+                        //   borderSide: BorderSide(
+                        //     width: 0,
+                        //     color: Colors.transparent,
+                        //   ),
+                        // ),
+                        // inputDecoration: InputDecoration(
+                        //   hintText: "Telefon nömrəsi",
+                        //   hintStyle: GoogleFonts.roboto(
+                        //       color: Colors.black54, fontSize: 16),
+                        //   contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        //   border: OutlineInputBorder(
+                        //     borderRadius: BorderRadius.circular(30.0),
+                        //     borderSide: BorderSide(
+                        //       width: 0,
+                        //       color: Colors.transparent,
+                        //     ),
+                        //   ),
+                        // ),
+                        validator: null,
+                        onSaved: (PhoneNumber number) {
+                          print('On Saved: $number');
+                        },
                       ),
                     ),
                     // TextFormField(
@@ -254,11 +238,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: TextButton(
                               onPressed: () => _selectDate(context),
                               child: Text(
-                                selectedDate == null
-                                    ? "Doğum Tarixinizi Seçin"
-                                    : _formatDate(selectedDate!),
-                                style:
-                                    GoogleFonts.poppins(color: Colors.white70),
+                                selectedDate == null ? "Doğum Tarixinizi Seçin" : _formatDate(selectedDate!),
+                                style: GoogleFonts.poppins(color: Colors.white70),
                               )),
                         ),
                       ],
@@ -276,14 +257,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       suffixIcon: authPRovider.isPasswordVisible
                           ? GestureDetector(
                               onTap: () {
-                                authPRovider.isPasswordVisible =
-                                    !authPRovider.isPasswordVisible;
+                                authPRovider.isPasswordVisible = !authPRovider.isPasswordVisible;
                               },
                               child: Icon(Icons.visibility))
                           : GestureDetector(
                               onTap: () {
-                                authPRovider.isPasswordVisible =
-                                    !authPRovider.isPasswordVisible;
+                                authPRovider.isPasswordVisible = !authPRovider.isPasswordVisible;
                               },
                               child: Icon(Icons.visibility_off)),
                       validator: (value) {
@@ -305,22 +284,19 @@ class _SignupScreenState extends State<SignupScreen> {
                       suffixIcon: authPRovider.isPasswordVisible
                           ? GestureDetector(
                               onTap: () {
-                                authPRovider.isPasswordVisible =
-                                    !authPRovider.isPasswordVisible;
+                                authPRovider.isPasswordVisible = !authPRovider.isPasswordVisible;
                               },
                               child: Icon(Icons.visibility))
                           : GestureDetector(
                               onTap: () {
-                                authPRovider.isPasswordVisible =
-                                    !authPRovider.isPasswordVisible;
+                                authPRovider.isPasswordVisible = !authPRovider.isPasswordVisible;
                               },
                               child: Icon(Icons.visibility_off)),
                       validator: (value) {
                         if (value == null) {
                           return "This field is required";
                         }
-                        if (authPRovider.passwordController.text !=
-                            authPRovider.passwordAgainController.text) {
+                        if (authPRovider.passwordController.text != authPRovider.passwordAgainController.text) {
                           return "Password should match";
                         }
                       },
@@ -331,10 +307,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       alignment: AlignmentDirectional.topStart,
                       child: Text(
                         "*Şifrə ən az 6 xanali olmalıdır",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white60,
-                            fontWeight: FontWeight.w300),
+                        style: TextStyle(fontSize: 12, color: Colors.white60, fontWeight: FontWeight.w300),
                       ),
                     ),
                     const SizedBox(
@@ -358,19 +331,16 @@ class _SignupScreenState extends State<SignupScreen> {
                     //   height: 18,
                     // ),
                     CheckboxListTile(
-                      contentPadding:
-                          const EdgeInsets.only(right: 48, left: 48),
+                      contentPadding: const EdgeInsets.only(right: 48, left: 48),
                       title: InkWell(
                           onTap: () {
-                            canLaunchUrl(
-                                "https://fayton.netlify.app/privacyandpolicy");
+                            canLaunchUrl("https://fayton.netlify.app/privacyandpolicy");
                           },
                           child: Text(
                             "Mən Şərtlər və Məxfilik ilə razıyam",
                             style: GoogleFonts.roboto(
                               color: Colors.black,
-                              decoration: TextDecoration
-                                  .underline, // Add this line to underline the text
+                              decoration: TextDecoration.underline, // Add this line to underline the text
                             ),
                           )),
                       onChanged: (value) {
@@ -385,23 +355,17 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if (_formKey.currentState!.validate() &&
-                            authPRovider.isTermsAccepted &&
-                            selectedDate != null) {
+                        if (_formKey.currentState!.validate() && authPRovider.isTermsAccepted && selectedDate != null) {
                           var credential = await authPRovider.signupWithEmail();
                           if (credential.user != null) {
-                            await authPRovider.setToken(
-                                userId: credential.user!.uid);
+                            await authPRovider.setToken(userId: credential.user!.uid);
                             var response = await authPRovider.addUserToDb();
 
-                            authPRovider.currentUser =
-                                await AuthService.getCurrentUser(
-                                    response.userId);
+                            authPRovider.currentUser = await AuthService.getCurrentUser(response.userId);
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => CustomNavigationBar(
-                                    currentUser: authPRovider.currentUser),
+                                builder: (_) => CustomNavigationBar(currentUser: authPRovider.currentUser),
                               ),
                               (route) => false,
                             );
@@ -413,7 +377,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               child: CustomWaitingIndicator(),
                             )
                           : CustomButton(
-                              text: "Qeyd",
+                              text: "Qeydiyyatdan keçin",
                               backgroundColor: AppColors.primaryColor,
                             ),
                     ),

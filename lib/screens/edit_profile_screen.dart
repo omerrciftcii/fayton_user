@@ -1,11 +1,7 @@
-import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:userapp/common/app_colors.dart';
 import 'package:userapp/providers/auth_methods.dart';
 import 'package:userapp/providers/auth_provider.dart';
 import 'package:userapp/screens/login_screen.dart';
@@ -28,8 +24,7 @@ class _SignupScreenState extends State<EditProfileScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _oldpasswordController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _deletePasswordController =
-      TextEditingController();
+  final TextEditingController _deletePasswordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   bool _isLoading = false;
   Uint8List? _image;
@@ -85,8 +80,7 @@ class _SignupScreenState extends State<EditProfileScreen> {
         }
       }
     } else if (widget.editType == 'delete') {
-      String res = await AuthMethods()
-          .settingsUser(deletepassword: _deletePasswordController.text);
+      String res = await AuthMethods().settingsUser(deletepassword: _deletePasswordController.text);
       // if string returned is sucess, user has been created
       if (res == "Kaydedildi") {
         setState(() {
@@ -109,8 +103,7 @@ class _SignupScreenState extends State<EditProfileScreen> {
         }
       }
     } else if (widget.editType == 'info') {
-      String res = await AuthMethods().settingsUser(
-          university: university, bolum: bolum, bio: _bioController.text);
+      String res = await AuthMethods().settingsUser(university: university, bolum: bolum, bio: _bioController.text);
       if (res == "Kaydedildi") {
         setState(() {
           _isLoading = false;
@@ -158,10 +151,7 @@ class _SignupScreenState extends State<EditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(),
-                    ),
+                    Spacer(flex: 1),
                     Image.asset(
                       'assets/icons/logo.png',
                       height: 150,
@@ -194,10 +184,7 @@ class _SignupScreenState extends State<EditProfileScreen> {
                                 children: [
                                   Text(
                                     'Hesabınızı silmək üçün parolunuzu daxil edin',
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
-                                        fontFamily: 'Red Hat Display'),
+                                    style: TextStyle(color: Colors.grey, fontSize: 16, fontFamily: 'Red Hat Display'),
                                   ),
                                   SizedBox(
                                     height: 16,
@@ -205,8 +192,7 @@ class _SignupScreenState extends State<EditProfileScreen> {
                                   TextFieldInput(
                                     hintText: 'Şifrə',
                                     textInputType: TextInputType.text,
-                                    textEditingController:
-                                        _deletePasswordController,
+                                    textEditingController: _deletePasswordController,
                                     isPass: true,
                                   ),
                                 ],
@@ -235,17 +221,14 @@ class _SignupScreenState extends State<EditProfileScreen> {
                                     Navigator.pop(context);
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                                     child: Container(
                                         //      width: double.infinity,
                                         alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12),
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
                                         decoration: const ShapeDecoration(
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4)),
+                                            borderRadius: BorderRadius.all(Radius.circular(4)),
                                           ),
                                           color: Colors.grey,
                                         ),
@@ -263,24 +246,19 @@ class _SignupScreenState extends State<EditProfileScreen> {
                           child: InkWell(
                             onTap: updateUser,
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: Container(
                                 // width: double.infinity,
                                 alignment: Alignment.center,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
                                 decoration: const ShapeDecoration(
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(4)),
+                                      borderRadius: BorderRadius.all(Radius.circular(4)),
                                     ),
                                     color: Colors.blue),
                                 child: !_isLoading
                                     ? Text(
-                                        widget.editType == 'delete'
-                                            ? 'Hesabı Sil'
-                                            : 'Təsdiq',
+                                        widget.editType == 'delete' ? 'Hesabı Sil' : 'Təsdiq',
                                       )
                                     : const CircularProgressIndicator(
                                         color: Colors.blue,
