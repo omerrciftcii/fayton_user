@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
-    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    Provider.of<AuthProvider>(context, listen: false);
     super.initState();
   }
 
@@ -54,8 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, top: 72.0),
+                              padding: const EdgeInsets.only(left: 10, top: 72.0),
                               child: RichText(
                                 text: const TextSpan(
                                   style: TextStyle(
@@ -94,8 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value == null) {
                           return "Bu sahə tələb olunur";
-                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
+                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                           return "E-poçt ünvanı doğru deyil";
                         }
                       },
@@ -113,18 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                           ),
                         ),
-                        // const Padding(
-                        //   padding: EdgeInsets.only(right: 60.0, top: 8),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     children: [
-                        //       Text(
-                        //         "Forgot password?",
-                        //         textAlign: TextAlign.end,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                     const SizedBox(
@@ -142,8 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
                                   try {
-                                    var response =
-                                        await authProvier.signInWithEmail();
+                                    var response = await authProvier.signInWithEmail();
 
                                     if (response.user != null) {
                                       Navigator.pushReplacement(
@@ -157,9 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          e
-                                              .toString()
-                                              .replaceAll("Exception:", ""),
+                                          e.toString().replaceAll("Exception:", ""),
                                         ),
                                       ),
                                     );
@@ -190,10 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: "Sizin hesabınız yoxdur?",
                             style: GoogleFonts.poppins(color: Colors.black54),
                           ),
-                          TextSpan(
-                              text: " Qeydiyyatdan keç",
-                              style:
-                                  GoogleFonts.poppins(color: Colors.black54)),
+                          TextSpan(text: " Qeydiyyatdan keç", style: GoogleFonts.poppins(color: Colors.black54)),
                         ]),
                       ),
                     )
