@@ -375,7 +375,8 @@ class AuthProvider extends ChangeNotifier {
         description: "21",
         phoneNumber: "+994" + phoneController.text,
         deviceToken: deviceToken ?? "",
-        lastName: familyNameController.text);
+        lastName: familyNameController.text,
+        isBlocked: false);
     try {
       await client.collection('users').doc(auth.currentUser!.uid).set(
             profileModel.toJson(),

@@ -16,7 +16,7 @@ class FirebaseHelper {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   static Future<void> setupFirebase() async {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp();
 
     FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
 

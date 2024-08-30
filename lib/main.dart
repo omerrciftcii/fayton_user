@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'dart:ui';
+
 import 'dart:async';
+import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';

@@ -19,9 +19,10 @@ class ProfileModel {
   Timestamp?
       lastSeen; // FieldValue.serverTimestamp() can be a Firestore Timestamp
   Map<String, dynamic>? metadata;
-  String? role; 
+  String? role;
   Timestamp? updatedAt;
   final String lastName;
+  bool isBlocked;
   // FieldValue.serverTimestamp() can be a Firestore Timestamp
 
   ProfileModel({
@@ -44,30 +45,31 @@ class ProfileModel {
     this.updatedAt,
     required this.deviceToken,
     required this.lastName,
+    required this.isBlocked,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-      username: json['username'] as String?,
-      email: json['email'] as String,
-      name: json['name'] as String,
-      familyName: json['familyName'] as String,
-      identityNumber: json['identityNumber'] as String,
-      userId: json['userId'] as String,
-      profileUrl: json['profileUrl'] ?? "",
-      age: json["age"] as int?,
-      description: "",
-      phoneNumber: json["phoneNumber"],
-      createdAt: json["createdAt"] as Timestamp?,
-      firstName: json["firstName"] as String?,
-      imageUrl: json["imageUrl"] as String?,
-      lastSeen: json["lastSeen"] as Timestamp?,
-      metadata: json["metadata"] as Map<String, dynamic>?,
-      role: json["role"] as String?,
-      updatedAt: json["updatedAt"] as Timestamp?,
-      deviceToken: json["deviceToken"],
-      lastName: json["lastName"],
-    );
+        username: json['username'] as String?,
+        email: json['email'] as String,
+        name: json['name'] as String,
+        familyName: json['familyName'] as String,
+        identityNumber: json['identityNumber'] as String,
+        userId: json['userId'] as String,
+        profileUrl: json['profileUrl'] ?? "",
+        age: json["age"] as int?,
+        description: "",
+        phoneNumber: json["phoneNumber"],
+        createdAt: json["createdAt"] as Timestamp?,
+        firstName: json["firstName"] as String?,
+        imageUrl: json["imageUrl"] as String?,
+        lastSeen: json["lastSeen"] as Timestamp?,
+        metadata: json["metadata"] as Map<String, dynamic>?,
+        role: json["role"] as String?,
+        updatedAt: json["updatedAt"] as Timestamp?,
+        deviceToken: json["deviceToken"],
+        lastName: json["lastName"],
+        isBlocked: json["isBlocked"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +91,7 @@ class ProfileModel {
       "updatedAt": updatedAt,
       "deviceToken": deviceToken,
       "lastName": lastName,
+      'isBlocked': isBlocked
     };
   }
 }
